@@ -1,7 +1,7 @@
 import ipaddress
 import socket
 import subprocess
-
+#hello
 
 NSX_SAP_BGP_1 = ipaddress.ip_network("10.224.0.96/29")
 NSX_SAP_BGP_2 = ipaddress.ip_network("10.224.0.104/29")
