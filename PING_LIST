@@ -1,0 +1,23 @@
+import ipaddress
+import socket
+import subprocess
+
+
+NSX_SAP_BGP_1 = ipaddress.ip_network("10.224.0.96/29")
+NSX_SAP_BGP_2 = ipaddress.ip_network("10.224.0.104/29")
+NSX_SAP_Edge_TEP = ipaddress.ip_network("2.2.2.0/24")
+
+BGP_1_HOSTS = list(NSX_SAP_BGP_1.hosts())
+BGP_2_HOSTS = list(NSX_SAP_BGP_2.hosts())
+
+info = subprocess.STARTUPINFO()
+info.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+info.wShowWindow = subprocess.SW_HIDE
+
+print("--VLAN 109 10.224.0.96/29--") 
+for i in range(len(BGP_1_HOSTS)):
+    output = subprocess.Popen(['ping','-n','1', '-w', '500', str(BGP_1_HOSTS[i])], stdout=subprocess.PIPE,startupinfo=info).communicate()[0]
+
+    
+    if "Request timed out." in output.decode('utf-8'):
+        print(str(BGP_1_HOSTS[i]), "Available")
